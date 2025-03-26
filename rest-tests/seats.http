@@ -1,0 +1,134 @@
+package ee.ursulavisnapuu.lennuplaneerija.controller;
+
+import org.springframework.web.bind.annotation.*;
+
+
+### Lisa istekoht 1
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 1,
+  "seatLetter": "A",
+  "occupied": false,
+  "window": true,
+  "extraLegroom": false,
+  "nearExit": true
+}
+
+### Lisa istekoht 2
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 2,
+  "seatLetter": "C",
+  "occupied": false,
+  "window": false,
+  "extraLegroom": true,
+  "nearExit": false
+}
+
+### Vaata soovitatud kohta (aken + jalaruum + väljapääs)
+GET http://localhost:8080/api/seats/suggest?window=true&legroom=true&exit=true
+
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 5,
+  "seatLetter": "A",
+  "occupied": false,
+  "window": true,
+  "extraLegroom": false,
+  "nearExit": true
+}
+
+### Lisa istekoht
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 2,
+  "seatLetter": "B",
+  "occupied": false,
+  "window": false,
+  "extraLegroom": true,
+  "nearExit": false
+}
+
+### Soovituse test: kõik eelistused true
+GET http://localhost:8080/api/seats/suggest?window=true&legroom=true&exit=true
+
+### Soovituse test: ainult aken
+GET http://localhost:8080/api/seats/suggest?window=true&legroom=false&exit=false
+
+### Soovituse test: ainult jalaruum
+GET http://localhost:8080/api/seats/suggest?window=false&legroom=true&exit=false
+
+### Lisa istekoht 1 – akna all, lähedal väljapääsule
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 1,
+  "seatLetter": "A",
+  "occupied": false,
+  "window": true,
+  "extraLegroom": false,
+  "nearExit": true
+}
+
+### Lisa istekoht 2 – rohkem jalaruumi
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 2,
+  "seatLetter": "C",
+  "occupied": false,
+  "window": false,
+  "extraLegroom": true,
+  "nearExit": false
+}
+
+### Lisa istekoht 3 – kõik eelistused täidetud
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 3,
+  "seatLetter": "F",
+  "occupied": false,
+  "window": true,
+  "extraLegroom": true,
+  "nearExit": true
+}
+
+### Lisa istekoht 4 – hõivatud (ei tohiks kunagi soovitada)
+POST http://localhost:8080/api/seats
+Content-Type: application/json
+
+{
+  "rowNumber": 4,
+  "seatLetter": "B",
+  "occupied": true,
+  "window": true,
+  "extraLegroom": true,
+  "nearExit": true
+}
+
+### ✅ Soovituse test: kõik eelistused true
+GET http://localhost:8080/api/seats/suggest?window=true&legroom=true&exit=true
+
+### ✅ Soovituse test: ainult aken
+GET http://localhost:8080/api/seats/suggest?window=true&legroom=false&exit=false
+
+### ✅ Soovituse test: ainult jalaruum
+GET http://localhost:8080/api/seats/suggest?window=false&legroom=true&exit=false
+
+### ✅ Soovituse test: ainult väljapääs
+GET http://localhost:8080/api/seats/suggest?window=false&legroom=false&exit=true
+
+### ✅ Soovituse test: ei midagi soovitud
+GET http://localhost:8080/api/seats/suggest?window=false&legroom=false&exit=false
