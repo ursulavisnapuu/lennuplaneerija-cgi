@@ -21,10 +21,10 @@ public class SeatController {
     }
 
     @GetMapping("/suggest")
-    public Optional<Seat> suggestSeat(@RequestParam boolean window,
-                                      @RequestParam boolean legroom,
-                                      @RequestParam boolean exit) {
-        return seatService.suggestSeat(window, legroom, exit);
+    public Optional<Seat> suggestSeat(@RequestParam(name = "window", defaultValue = "false") boolean preferWindow,
+                                      @RequestParam(name = "legroom", defaultValue = "false") boolean preferLegroom,
+                                      @RequestParam(name = "exit", defaultValue = "false") boolean preferExit) {
+        return seatService.suggestSeat(preferWindow, preferLegroom, preferExit);
     }
 
     @PostMapping

@@ -9,20 +9,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Seat {
+public class Passenger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int rowNumber;
-    private char seatLetter;
+    private String firstName;
+    private String lastName;
+    private String email;
 
-    private boolean occupied;
-
-    @Column(name = "seat_window")
-    private boolean seatWindow;
-
-    private boolean extraLegroom;
-    private boolean nearExit;
+    @OneToOne
+    @JoinColumn(name = "seat_id")
+    private Seat seat;
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
-    List<Seat> findByIsOccupiedFalse(); // vabad istekohad
+    List<Seat> findByOccupiedFalse(); // vabad istekohad
 }
