@@ -43,4 +43,9 @@ public class PassengerController {
     public Passenger assignSeatToPassenger(@PathVariable Long id, @PathVariable Long seatId) {
         return passengerService.assignSeatToPassenger(id, seatId);
     }
+
+    @PutMapping("/{id}/assign-flight/{flightId}")
+    public Passenger assignFlightToPassenger(@PathVariable Long id, @PathVariable Long flightId) {
+        return passengerService.assignFlightToPassenger(id, flightId);
+    }
 }
