@@ -23,3 +23,5 @@ public class Passenger {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 }
+
+

@@ -20,4 +20,13 @@ public class PassengerService {
     public Passenger savePassenger(Passenger passenger) {
         return passengerRepository.save(passenger);
     }
+
+    public void deletePassengerById(Long id) {
+        passengerRepository.deleteById(id);
+    }
+
+    public List<Passenger> saveAllPassengers(List<Passenger> passengers) {
+        return passengerRepository.saveAll(passengers);
+    }
+    
 }

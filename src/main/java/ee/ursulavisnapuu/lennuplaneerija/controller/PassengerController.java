@@ -23,4 +23,15 @@ public class PassengerController {
     public Passenger createPassenger(@RequestBody Passenger passenger) {
         return passengerService.savePassenger(passenger);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletePassenger(@PathVariable Long id) {
+        passengerService.deletePassengerById(id);
+    }
+
+    @PostMapping("/batch")
+public List<Passenger> createPassengers(@RequestBody List<Passenger> passengers) {
+    return passengerService.saveAllPassengers(passengers);
+}
+
 }
