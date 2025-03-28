@@ -1,9 +1,11 @@
 package ee.ursulavisnapuu.lennuplaneerija.service;
 
+import ee.ursulavisnapuu.lennuplaneerija.model.Flight;
 import ee.ursulavisnapuu.lennuplaneerija.model.Passenger;
 import ee.ursulavisnapuu.lennuplaneerija.model.Seat;
-import ee.ursulavisnapuu.lennuplaneerija.repository.SeatRepository;
+import ee.ursulavisnapuu.lennuplaneerija.repository.FlightRepository;
 import ee.ursulavisnapuu.lennuplaneerija.repository.PassengerRepository;
+import ee.ursulavisnapuu.lennuplaneerija.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,10 @@ public class PassengerService {
     private PassengerRepository passengerRepository;
 
     @Autowired
-    private SeatRepository seatRepository; // 💥 SEE RIDA ON OLI PUUDU
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
 
     public List<Passenger> getAllPassengers() {
         return passengerRepository.findAll();
@@ -24,6 +29,10 @@ public class PassengerService {
 
     public Passenger savePassenger(Passenger passenger) {
         return passengerRepository.save(passenger);
+    }
+
+    public List<Passenger> saveAllPassengers(List<Passenger> passengers) {
+        return passengerRepository.saveAll(passengers);
     }
 
     public void deletePassengerById(Long id) {
@@ -38,6 +47,7 @@ public class PassengerService {
         existingPassenger.setLastName(updatedPassenger.getLastName());
         existingPassenger.setEmail(updatedPassenger.getEmail());
         existingPassenger.setSeat(updatedPassenger.getSeat());
+        existingPassenger.setFlight(updatedPassenger.getFlight());
 
         return passengerRepository.save(existingPassenger);
     }
@@ -56,7 +66,14 @@ public class PassengerService {
         return passengerRepository.save(passenger);
     }
 
-    public List<Passenger> saveAllPassengers(List<Passenger> passengers) {
-        return passengerRepository.saveAll(passengers);
+    public Passenger assignFlightToPassenger(Long passengerId, Long flightId) {
+        Passenger passenger = passengerRepository.findById(passengerId)
+                .orElseThrow(() -> new RuntimeException("Passenger not found with id: " + passengerId));
+
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
+
+        passenger.setFlight(flight);
+        return passengerRepository.save(passenger);
     }
 }
