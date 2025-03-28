@@ -26,6 +26,10 @@ public class FlightService {
         return flightRepository.findByDestination(destination);
     }
 
+    public List<Flight> findFlightsByOriginAndDate(String origin, String date) {
+        return flightRepository.findByOriginAndDate(origin, date);
+    }
+
     public Flight createFlight(Flight flight) {
         return flightRepository.save(flight);
     }
