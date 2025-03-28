@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<Flight> findByDestination(String destination);
+    List<Flight> findByOriginAndDate(String origin, String date);
+
 }
+
+
