@@ -19,9 +19,11 @@ public class Passenger {
     private String lastName;
     private String email;
 
-   @OneToOne
+    @OneToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
+
+    @ManyToOne
+    @JoinColumn(name = "flight_id")
+    private Flight flight;
 }
-
-
