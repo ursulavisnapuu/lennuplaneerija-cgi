@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/flights")
@@ -21,33 +20,38 @@ public class FlightController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Flight> getFlightById(@PathVariable Long id) {
+    public Flight getFlightById(@PathVariable Long id) {
         return flightService.getFlightById(id);
     }
 
-    @GetMapping("/destination/{destination}")
-    public List<Flight> getFlightsByDestination(@PathVariable String destination) {
-        return flightService.getFlightsByDestination(destination);
-    }
-
-    @GetMapping("/search")
-    public List<Flight> searchFlights(@RequestParam String origin, @RequestParam String date) {
-    return flightService.findFlightsByOriginAndDate(origin, date);
-}
-
-
     @PostMapping
     public Flight createFlight(@RequestBody Flight flight) {
-        return flightService.createFlight(flight);
+        return flightService.saveFlight(flight);
     }
 
     @PutMapping("/{id}")
-    public Flight updateFlight(@PathVariable Long id, @RequestBody Flight flight) {
-        return flightService.updateFlight(id, flight);
+    public Flight updateFlight(@PathVariable Long id, @RequestBody Flight updatedFlight) {
+        return flightService.updateFlight(id, updatedFlight);
     }
 
     @DeleteMapping("/{id}")
     public void deleteFlight(@PathVariable Long id) {
         flightService.deleteFlight(id);
+    }
+
+    
+    @GetMapping("/search-by-origin")
+    public List<Flight> searchByOriginAndDate(@RequestParam String origin, @RequestParam String date) {
+        return flightService.findByOriginAndDate(origin, date);
+    }
+
+    
+    @GetMapping("/search/price")
+    public List<Flight> searchFlightsByPriceRange(
+            @RequestParam String destination,
+            @RequestParam double minPrice,
+            @RequestParam double maxPrice
+    ) {
+        return flightService.findByDestinationAndPriceRange(destination, minPrice, maxPrice);
     }
 }
