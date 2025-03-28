@@ -24,14 +24,23 @@ public class PassengerController {
         return passengerService.savePassenger(passenger);
     }
 
+    @PostMapping("/batch")
+    public List<Passenger> createPassengers(@RequestBody List<Passenger> passengers) {
+        return passengerService.saveAllPassengers(passengers);
+    }
+
     @DeleteMapping("/{id}")
     public void deletePassenger(@PathVariable Long id) {
         passengerService.deletePassengerById(id);
     }
 
-    @PostMapping("/batch")
-public List<Passenger> createPassengers(@RequestBody List<Passenger> passengers) {
-    return passengerService.saveAllPassengers(passengers);
-}
+    @PutMapping("/{id}")
+    public Passenger updatePassenger(@PathVariable Long id, @RequestBody Passenger updatedPassenger) {
+        return passengerService.updatePassenger(id, updatedPassenger);
+    }
 
+    @PutMapping("/{id}/assign-seat/{seatId}")
+    public Passenger assignSeatToPassenger(@PathVariable Long id, @PathVariable Long seatId) {
+        return passengerService.assignSeatToPassenger(id, seatId);
+    }
 }
