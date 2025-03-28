@@ -30,6 +30,12 @@ public class FlightController {
         return flightService.getFlightsByDestination(destination);
     }
 
+    @GetMapping("/search")
+    public List<Flight> searchFlights(@RequestParam String origin, @RequestParam String date) {
+    return flightService.findFlightsByOriginAndDate(origin, date);
+}
+
+
     @PostMapping
     public Flight createFlight(@RequestBody Flight flight) {
         return flightService.createFlight(flight);
