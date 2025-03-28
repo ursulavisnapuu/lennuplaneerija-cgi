@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FlightService {
@@ -18,33 +17,36 @@ public class FlightService {
         return flightRepository.findAll();
     }
 
-    public Optional<Flight> getFlightById(Long id) {
-        return flightRepository.findById(id);
+    public Flight getFlightById(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
     }
 
-    public List<Flight> getFlightsByDestination(String destination) {
-        return flightRepository.findByDestination(destination);
-    }
-
-    public List<Flight> findFlightsByOriginAndDate(String origin, String date) {
-        return flightRepository.findByOriginAndDate(origin, date);
-    }
-
-    public Flight createFlight(Flight flight) {
+    public Flight saveFlight(Flight flight) {
         return flightRepository.save(flight);
+    }
+
+    public Flight updateFlight(Long id, Flight updatedFlight) {
+        Flight existingFlight = flightRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
+
+        existingFlight.setOrigin(updatedFlight.getOrigin());
+        existingFlight.setDestination(updatedFlight.getDestination());
+        existingFlight.setDate(updatedFlight.getDate());
+        existingFlight.setPrice(updatedFlight.getPrice());
+
+        return flightRepository.save(existingFlight);
     }
 
     public void deleteFlight(Long id) {
         flightRepository.deleteById(id);
     }
 
-    public Flight updateFlight(Long id, Flight updatedFlight) {
-        Flight existing = flightRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
-        existing.setOrigin(updatedFlight.getOrigin());
-        existing.setDestination(updatedFlight.getDestination());
-        existing.setDate(updatedFlight.getDate());
-        existing.setPrice(updatedFlight.getPrice());
-        return flightRepository.save(existing);
+    public List<Flight> findByOriginAndDate(String origin, String date) {
+        return flightRepository.findByOriginAndDate(origin, date);
+    }
+
+    public List<Flight> findByDestinationAndPriceRange(String destination, double minPrice, double maxPrice) {
+        return flightRepository.findByDestinationAndPriceBetween(destination, minPrice, maxPrice);
     }
 }
