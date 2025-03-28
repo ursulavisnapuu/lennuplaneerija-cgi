@@ -4,6 +4,7 @@ import ee.ursulavisnapuu.lennuplaneerija.model.Passenger;
 import ee.ursulavisnapuu.lennuplaneerija.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ee.ursulavisnapuu.lennuplaneerija.dto.AssignFlightRequest;
 
 import java.util.List;
 
@@ -28,6 +29,11 @@ public class PassengerController {
     public List<Passenger> createPassengers(@RequestBody List<Passenger> passengers) {
         return passengerService.saveAllPassengers(passengers);
     }
+
+    @PostMapping("/assign-flight")
+public List<Passenger> assignFlightToPassengers(@RequestBody AssignFlightRequest request) {
+    return passengerService.assignFlightToPassengers(request.getPassengerIds(), request.getFlightId());
+}
 
     @DeleteMapping("/{id}")
     public void deletePassenger(@PathVariable Long id) {
