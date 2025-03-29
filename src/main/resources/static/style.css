@@ -1,0 +1,88 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to top, #84fab0, #8fd3f4);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    background: #ffffffc9;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 3rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filters label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+}
+
+button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #4bc0c8;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #3baab0;
+}
+
+#seatPlan {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 50px);
+    gap: 10px;
+    padding: 20px;
+}
+
+.seat {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: #e0e0e0;
+}
+
+.seat.available {
+    background-color: #84fab0;
+    cursor: pointer;
+}
+
+.seat.occupied {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+

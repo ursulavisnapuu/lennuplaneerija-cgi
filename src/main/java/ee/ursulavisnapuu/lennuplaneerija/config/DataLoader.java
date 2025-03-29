@@ -5,37 +5,85 @@ import ee.ursulavisnapuu.lennuplaneerija.model.Seat;
 import ee.ursulavisnapuu.lennuplaneerija.repository.FlightRepository;
 import ee.ursulavisnapuu.lennuplaneerija.repository.SeatRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class DataLoader implements CommandLineRunner {
+@Configuration
+public class DataLoader {
 
-    private final SeatRepository seatRepository;
-    private final FlightRepository flightRepository;
+    @Bean
+    public CommandLineRunner loadData(FlightRepository flightRepository, SeatRepository seatRepository) {
+        return args -> {
+            if (flightRepository.count() == 0) {
+                Flight flight1 = Flight.builder()
+                        .origin("Tallinn")
+                        .destination("Barcelona")
+                        .date("2025-06-10")
+                        .price(179.99)
+                        .build();
 
-    public DataLoader(SeatRepository seatRepository, FlightRepository flightRepository) {
-        this.seatRepository = seatRepository;
-        this.flightRepository = flightRepository;
-    }
+                Flight flight2 = Flight.builder()
+                        .origin("Tartu")
+                        .destination("Helsinki")
+                        .date("2025-07-15")
+                        .price(89.99)
+                        .build();
 
-    @Override
-    public void run(String... args) throws Exception {
-        if (seatRepository.count() == 0) {
-            seatRepository.save(Seat.builder().rowNumber(1).seatLetter('A').seatWindow(true).extraLegroom(false).nearExit(true).occupied(false).build());
-            seatRepository.save(Seat.builder().rowNumber(1).seatLetter('B').seatWindow(false).extraLegroom(true).nearExit(true).occupied(false).build());
-            seatRepository.save(Seat.builder().rowNumber(2).seatLetter('C').seatWindow(false).extraLegroom(false).nearExit(false).occupied(false).build());
-            seatRepository.save(Seat.builder().rowNumber(3).seatLetter('F').seatWindow(true).extraLegroom(true).nearExit(true).occupied(false).build());
-            seatRepository.save(Seat.builder().rowNumber(4).seatLetter('D').seatWindow(false).extraLegroom(true).nearExit(false).occupied(true).build());
+                flightRepository.save(flight1);
+                flightRepository.save(flight2);
 
-            System.out.println("✔️ Istekohad edukalt lisatud!");
-        }
+                // Lisa istekohad flight1 külge
+                seatRepository.save(Seat.builder()
+                        .rowNumber(1)
+                        .seatLetter("A")
+                        .occupied(false)
+                        .seatWindow(true)
+                        .extraLegroom(true)
+                        .nearExit(false)
+                        .flight(flight1)
+                        .build());
 
-        if (flightRepository.count() == 0) {
-            flightRepository.save(Flight.builder().origin("Tallinn").destination("Helsinki").date("2025-04-10").price(79.99).build());
-            flightRepository.save(Flight.builder().origin("Tallinn").destination("Stockholm").date("2025-04-12").price(89.99).build());
-            flightRepository.save(Flight.builder().origin("Tallinn").destination("Oslo").date("2025-04-15").price(99.99).build());
+                seatRepository.save(Seat.builder()
+                        .rowNumber(1)
+                        .seatLetter("B")
+                        .occupied(true)
+                        .seatWindow(false)
+                        .extraLegroom(false)
+                        .nearExit(true)
+                        .flight(flight1)
+                        .build());
 
-            System.out.println("✔️ Lennud edukalt lisatud!");
-        }
+                seatRepository.save(Seat.builder()
+                        .rowNumber(2)
+                        .seatLetter("C")
+                        .occupied(false)
+                        .seatWindow(false)
+                        .extraLegroom(true)
+                        .nearExit(true)
+                        .flight(flight1)
+                        .build());
+
+                // Lisa paar kohta flight2 külge ka
+                seatRepository.save(Seat.builder()
+                        .rowNumber(1)
+                        .seatLetter("A")
+                        .occupied(false)
+                        .seatWindow(true)
+                        .extraLegroom(false)
+                        .nearExit(false)
+                        .flight(flight2)
+                        .build());
+
+                seatRepository.save(Seat.builder()
+                        .rowNumber(1)
+                        .seatLetter("B")
+                        .occupied(false)
+                        .seatWindow(false)
+                        .extraLegroom(true)
+                        .nearExit(false)
+                        .flight(flight2)
+                        .build());
+            }
+        };
     }
 }

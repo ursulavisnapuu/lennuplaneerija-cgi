@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findByOccupiedFalse(); // vabad istekohad
+
+    List<Seat> findByFlightId(Long flightId); // istekohad konkreetsele lennule
 }

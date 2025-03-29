@@ -16,13 +16,13 @@ public class Seat {
     private Long id;
 
     private int rowNumber;
-    private char seatLetter;
-
+    private String seatLetter;
     private boolean occupied;
-
-    @Column(name = "seat_window")
     private boolean seatWindow;
-
     private boolean extraLegroom;
     private boolean nearExit;
+
+    @ManyToOne
+    @JoinColumn(name = "flight_id")
+    private Flight flight;
 }

@@ -18,6 +18,11 @@ public class SeatService {
         return seatRepository.findAll();
     }
 
+    public List<Seat> getSeatsByFlightId(Long flightId) {
+        return seatRepository.findByFlightId(flightId);
+    }
+    
+
     public Optional<Seat> suggestSeat(boolean preferWindow, boolean preferLegroom, boolean preferExit) {
         List<Seat> availableSeats = seatRepository.findByOccupiedFalse();
 

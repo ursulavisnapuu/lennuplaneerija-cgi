@@ -31,4 +31,10 @@ public class SeatController {
     public Seat createSeat(@RequestBody Seat seat) {
         return seatService.saveSeat(seat);
     }
+
+    @GetMapping("/flight/{flightId}")
+public List<Seat> getSeatsByFlight(@PathVariable Long flightId) {
+    return seatService.getSeatsByFlightId(flightId);
+}
+
 }
