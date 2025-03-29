@@ -1,7 +1,10 @@
 package ee.ursulavisnapuu.lennuplaneerija.service;
 
 import ee.ursulavisnapuu.lennuplaneerija.model.Flight;
+import ee.ursulavisnapuu.lennuplaneerija.model.Passenger;
 import ee.ursulavisnapuu.lennuplaneerija.repository.FlightRepository;
+import ee.ursulavisnapuu.lennuplaneerija.repository.PassengerRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +52,21 @@ public class FlightService {
     public List<Flight> findByDestinationAndPriceRange(String destination, double minPrice, double maxPrice) {
         return flightRepository.findByDestinationAndPriceBetween(destination, minPrice, maxPrice);
     }
+
+    @Autowired
+private PassengerRepository passengerRepository;
+
+public List<Passenger> assignPassengersToFlight(Long flightId, List<Long> passengerIds) {
+    Flight flight = flightRepository.findById(flightId)
+            .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
+
+    List<Passenger> passengers = passengerRepository.findAllById(passengerIds);
+
+    for (Passenger passenger : passengers) {
+        passenger.setFlight(flight);
+    }
+
+    return passengerRepository.saveAll(passengers);
+}
+
 }

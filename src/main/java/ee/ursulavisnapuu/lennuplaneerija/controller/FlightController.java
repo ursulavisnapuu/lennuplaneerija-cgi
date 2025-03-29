@@ -1,6 +1,7 @@
 package ee.ursulavisnapuu.lennuplaneerija.controller;
 
 import ee.ursulavisnapuu.lennuplaneerija.model.Flight;
+import ee.ursulavisnapuu.lennuplaneerija.model.Passenger;
 import ee.ursulavisnapuu.lennuplaneerija.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class FlightController {
     public Flight updateFlight(@PathVariable Long id, @RequestBody Flight updatedFlight) {
         return flightService.updateFlight(id, updatedFlight);
     }
+    
 
     @DeleteMapping("/{id}")
     public void deleteFlight(@PathVariable Long id) {
@@ -54,4 +56,13 @@ public class FlightController {
     ) {
         return flightService.findByDestinationAndPriceRange(destination, minPrice, maxPrice);
     }
+
+    @PutMapping("/{flightId}/assign-passengers")
+public List<Passenger> assignPassengersToFlight(
+        @PathVariable Long flightId,
+        @RequestBody List<Long> passengerIds
+) {
+    return flightService.assignPassengersToFlight(flightId, passengerIds);
+}
+
 }
