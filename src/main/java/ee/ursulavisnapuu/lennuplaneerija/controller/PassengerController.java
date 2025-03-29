@@ -31,7 +31,7 @@ public class PassengerController {
     }
 
     @PostMapping("/assign-flight")
-public List<Passenger> assignFlightToPassengers(@RequestBody AssignFlightRequest request) {
+    public List<Passenger> assignFlightToPassengers(@RequestBody AssignFlightRequest request) {
     return passengerService.assignFlightToPassengers(request.getPassengerIds(), request.getFlightId());
 }
 
@@ -54,4 +54,10 @@ public List<Passenger> assignFlightToPassengers(@RequestBody AssignFlightRequest
     public Passenger assignFlightToPassenger(@PathVariable Long id, @PathVariable Long flightId) {
         return passengerService.assignFlightToPassenger(id, flightId);
     }
+
+    @PutMapping("/assign-flight/{flightId}")
+    public List<Passenger> assignFlightToPassengers(@PathVariable Long flightId, @RequestBody List<Long> passengerIds) {
+    return passengerService.assignFlightToPassengers(flightId, passengerIds);
+}
+
 }
