@@ -46,6 +46,20 @@ public class PassengerService {
     
         return passengerRepository.saveAll(passengers);
     }
+
+    public List<Passenger> assignFlightToPassengers(Long flightId, List<Long> passengerIds) {
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
+    
+        List<Passenger> passengers = passengerRepository.findAllById(passengerIds);
+    
+        for (Passenger passenger : passengers) {
+            passenger.setFlight(flight);
+        }
+    
+        return passengerRepository.saveAll(passengers);
+    }
+    
     
 
     public void deletePassengerById(Long id) {
